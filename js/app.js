@@ -7,9 +7,11 @@ var Enemy = function() {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
-    // initial x and y position
+    // Initial x and y position
+    // y uses same values as player's pos y
     this.x = -100;
-    this.y = (Math.floor(Math.random() * 3) + 1) * 83 - 20;
+    this.y = (Math.floor(Math.random() * 3) + 1) * 83 - Math.floor(83/3) - 1;
+
     // enemy speed: 100, 200, 300 or 400
     this.speed = (Math.floor(Math.random() * 4) + 1) * 100;
 
@@ -37,19 +39,20 @@ Enemy.prototype.render = function() {
 };
 
 
+
 // Player class
 var Player = function() {
 
   this.sprite = 'images/char-boy.png';
   this.x = startx;
   this.y = starty;
-  console.log(`${this.x}/${this.y}`);
 
 };
 
 // Update the player's position
-Player.prototype.update = function() {
-
+Player.prototype.update = function(x,y) {
+  this.x = x;
+  this.y = y;
 };
 
 // Draw the player on the screen
@@ -61,75 +64,59 @@ Player.prototype.render = function() {
 };
 
 // Called if one of the up/down/left/right key is pressed
+// Updates player position accordingly
 Player.prototype.handleInput = function(key) {
-
+//console.log(`${this.x}/${this.y}`);
   switch (key) {
-    case 'up':
 
-      // WHY DOESN'T THIS WORK???
-      // this.y > 100 ? this.y - 83 : starty;
+    case 'up':
       if (this.y > 100) {
-        this.y -= 83;
+        this.update(this.x, this.y - 83);
       }
-      else {
-        this.x = startx;
-        this.y = starty;
+      else { // WIN === water reached
+        this.update(startx,starty);
+        console.log('WIN!');
       }
-      // console.log(`${this.x}/${this.y}`);
       break;
 
     case 'down':
-      if (this.y < 300) {
-        this.y += 83;
+      if (this.y < 310) {
+        this.update(this.x, this.y + 83);
       }
-      // console.log(`${this.x}/${this.y}`);
       break;
 
     case 'left':
       if (this.x > 0) {
-        this.x -= 101;
+        this.update(this.x - 101, this.y);
       }
-      // console.log(`${this.x}/${this.y}`);
       break;
 
     case 'right':
       if (this.x < 400) {
-        this.x += 101;
+          this.update(this.x + 101, this.y);
       }
-      // console.log(`${this.x}/${this.y}`);
       break;
-
-    default:
   }
-
-
-
-
 };
 
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
 
-// start position of player
+// Start position of player
 var startx = 2 * 101;
-var starty = 4 * 83 + 83/2;
+var starty = 4 * 83 + Math.floor(83/3*2);
 
-
+// Array storing all enemy objects
 var allEnemies = [];
+
+// Player object
 var player = new Player();
 
-
-
-// creates a new enemy every second
+// Creates a new enemy every second
 // TODO: option to vary or create game levels
 window.setInterval(createEnemy, 1000);
 
 function createEnemy() {
   allEnemies.push(new Enemy());
 }
-
-
 
 
 
