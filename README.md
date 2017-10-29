@@ -1,6 +1,22 @@
-frontend-nanodegree-arcade-game
+# Udacity: Memory Game Project
 ===============================
 
-Students should use this [rubric](https://review.udacity.com/#!/projects/2696458597/rubric) for self-checking their submission. Make sure the functions you write are **object-oriented** - either class functions (like Player and Enemy) or class prototype functions such as Enemy.prototype.checkCollisions, and that the keyword 'this' is used appropriately within your class and class prototype functions to refer to the object the function is called upon. Also be sure that the **readme.md** file is updated with your instructions on both how to 1. Run and 2. Play your arcade game.
+Recreation of a simplified version of the Arcade game 'Frogger' as part of Udacity's Front-End Web Developer Nanodegree.
 
-For detailed instructions on how to get started, check out this [guide](https://docs.google.com/document/d/1v01aScPjSWCCWQLIpFqvg3-vXLH2e8_SZQKC8jNO0Dc/pub?embedded=true).
+## Project Instructions by Udacity
+
+"Students should use this [rubric](https://review.udacity.com/#!/projects/2696458597/rubric) for self-checking their submission. Make sure the functions you write are **object-oriented** - either class functions (like Player and Enemy) or class prototype functions such as Enemy.prototype.checkCollisions, and that the keyword 'this' is used appropriately within your class and class prototype functions to refer to the object the function is called upon."
+
+## Game Setup
+
+1. open index.html
+2. the game starts automatically
+3. one "enemy" (bug) is created per sec moving at different speed from left to right in 3 different lanes
+
+## How to Play
+
+- move player with up/down/left/right keys
+- the mission is to reach to water without colliding with an "enemy"
+- reaching the water is a "win" being added to the counter of consecutive wins
+- colliding with an "enemy" will reset the counter
+- go for as many consecutive wins as possible!
