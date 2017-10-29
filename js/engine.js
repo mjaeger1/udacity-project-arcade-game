@@ -97,14 +97,19 @@ var Engine = (function(global) {
         allEnemies.forEach(function(enemy) {
             enemy.update(dt);
         });
-        // player.update(); // MJ: not needed
+        // player.update();
     }
 
+    /* This is called by the update function and loops through all of the
+     * objects within the allEnemies array as defined in app.js to check
+     * whether there are any collisions with the Player.
+     */
     function checkCollisions(){
       allEnemies.forEach(function(enemy) {
-          if((player.y === enemy.y) && (enemy.x > (player.x - 20)) && (enemy.x < (player.x + 20))){
+          if((player.y === enemy.y) && (enemy.x > (player.x - 50)) && (enemy.x < (player.x + 50))){
             player.update(startx, starty);
-            console.log('collision!!');
+            wins = 0;
+            player.updateResults(wins);
           }
       });
     }

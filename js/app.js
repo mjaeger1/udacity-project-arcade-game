@@ -7,13 +7,14 @@ var Enemy = function() {
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
+
     // Initial x and y position
     // y uses same values as player's pos y
     this.x = -100;
     this.y = (Math.floor(Math.random() * 3) + 1) * 83 - Math.floor(83/3) - 1;
 
-    // enemy speed: 100, 200, 300 or 400
-    this.speed = (Math.floor(Math.random() * 4) + 1) * 100;
+    // Enemy speed: 100, 200, 300, 400 or 500
+    this.speed = (Math.floor(Math.random() * 5) + 1) * 100;
 
 };
 
@@ -43,11 +44,18 @@ Enemy.prototype.render = function() {
 // Player class
 var Player = function() {
 
+  // Player is defined as subclass of Enemy to make use of Enemy.prototype.render
+  // Not really worth it in that case (only 1 tiny method re-used) but just to give it a try
+  Enemy.call(this);
+
   this.sprite = 'images/char-boy.png';
   this.x = startx;
   this.y = starty;
 
 };
+
+// Subclass prototype delegation
+Player.prototype = Object.create(Enemy.prototype);
 
 // Update the player's position
 Player.prototype.update = function(x,y) {
@@ -55,18 +63,11 @@ Player.prototype.update = function(x,y) {
   this.y = y;
 };
 
-// Draw the player on the screen
-// TODO: is it worth creating a subclass just because of 1 method is the same?
-Player.prototype.render = function() {
-
- ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-
-};
 
 // Called if one of the up/down/left/right key is pressed
 // Updates player position accordingly
 Player.prototype.handleInput = function(key) {
-//console.log(`${this.x}/${this.y}`);
+
   switch (key) {
 
     case 'up':
@@ -75,7 +76,7 @@ Player.prototype.handleInput = function(key) {
       }
       else { // WIN === water reached
         this.update(startx,starty);
-        console.log('WIN!');
+        this.updateResults(++wins);
       }
       break;
 
@@ -100,6 +101,16 @@ Player.prototype.handleInput = function(key) {
 };
 
 
+// Updates the number of consecutive wins
+Player.prototype.updateResults = function(result){
+
+  document.getElementById('wins').innerHTML = 'wins: ' + result;
+
+}
+
+
+// Variable definition and player/enemy instantiation
+
 // Start position of player
 var startx = 2 * 101;
 var starty = 4 * 83 + Math.floor(83/3*2);
@@ -111,12 +122,14 @@ var allEnemies = [];
 var player = new Player();
 
 // Creates a new enemy every second
-// TODO: option to vary or create game levels
 window.setInterval(createEnemy, 1000);
 
 function createEnemy() {
   allEnemies.push(new Enemy());
 }
+
+// Variable counting consecutive wins
+var wins = 0;
 
 
 
